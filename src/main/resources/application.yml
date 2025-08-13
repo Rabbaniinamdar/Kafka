@@ -1,0 +1,24 @@
+server:
+  port: 8080   # or set per service, e.g. 8081/8082/8083
+
+spring:
+  application:
+    name: order-service # change per service
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        acks: all
+        enable.idempotence: true
+        compression.type: lz4
+        linger.ms: 5
+        retries: 10
+    listener:
+      ack-mode: RECORD
+
+app:
+  topics:
+    orders: order-created
+    orders-dlt: order-created.DLT
